@@ -62,7 +62,6 @@ use \dmstr\bootstrap\Tabs;
                 <p>
                     <?php
                     foreach ($safeAttributes as $attribute) {
-
                         $prepend = $generator->prependActiveField($attribute, $model);
                         $field   = $generator->activeField($attribute, $model);
                         $append  = $generator->appendActiveField($attribute, $model);

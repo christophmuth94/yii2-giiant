@@ -8,6 +8,7 @@
 namespace schmunk42\giiant\crud;
 
 use schmunk42\giiant\crud\providers\CallbackProvider;
+use schmunk42\giiant\crud\providers\DateProvider;
 use schmunk42\giiant\crud\providers\DateTimeProvider;
 use schmunk42\giiant\crud\providers\EditorProvider;
 use schmunk42\giiant\crud\providers\OptsProvider;
@@ -73,6 +74,7 @@ class Generator extends \yii\gii\generators\crud\Generator
             CallbackProvider::className(),
             EditorProvider::className(),
             DateTimeProvider::className(),
+            DateProvider::className(),
             OptsProvider::className(),
             RelationProvider::className()
         ];
@@ -325,7 +327,9 @@ class Generator extends \yii\gii\generators\crud\Generator
         if ($model === null) {
             $model = $this->modelClass;
         }
+
         $code = $this->callProviderQueue(__FUNCTION__, $attribute, $model, $this);
+
         if ($code !== null) {
             Yii::trace("found provider for '{$attribute}'", __METHOD__);
             return $code;
@@ -501,7 +505,7 @@ class Generator extends \yii\gii\generators\crud\Generator
         }
     }
 
-    private function callProviderQueue($func, $args, $generator)
+    private function callProviderQueue($func, $attribute, $generator)
     {
         $this->initializeProviders(); // TODO: should be done on init, but providerList is empty
         //var_dump($this->_p);exit;
@@ -522,6 +526,7 @@ class Generator extends \yii\gii\generators\crud\Generator
                     }
                     $msg = 'Using provider ' . get_class($obj) . '::' . $func . ' ' . $argsString;
                     Yii::trace($msg, __METHOD__);
+
                     return $c;
                 }
             }
